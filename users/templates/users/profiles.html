@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'users/profile_banner.html' %}
+
+<div class="max-w-7xl mx-auto my-8 px-4 text-center">
+    <label for="hero-field" class="leading-7 text-2xl md:text-4xl font-bold uppercase text-white">Search
+        Developers</label>
+    <form id="searchForm" action="{% url 'profiles' %}" method="GET" class="flex w-full justify-center items-end">
+        <div class="relative mr-2 lg:w-2/4 xl:w-1/2 w-full md:w-full text-left">
+            <input type="text" id="hero-field" name="q"
+                class="w-full bg-white mt-5 rounded focus:ring-2 focus:ring-indigo-200  border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                value="{{search_query}}">
+        </div>
+        <button type="submit"
+            class="inline-flex text-white bg-indigo-500 border-0 py-2 px-4 md:px-6  focus:outline-none hover:bg-indigo-600 rounded text-lg">Search</button>
+    </form>
+
+</div>
+
+{% include 'users/profile_card.html' %}
+
+{% include 'pagination.html' with queryset=profiles custom_range=custom_range %}
+
+
+{% endblock content %}

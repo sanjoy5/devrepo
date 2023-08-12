@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl w-full mx-auto px-4">
+    <img class="lg:h-[500px] md:h-[400px] h-full w-full w-full object-cover object-center mt-10 rounded"
+        src="{{project.image.url}}" alt="product">
+
+    <div class="mt-10 mb-16 md:mb-24">
+        <a href="" class="text-xl md:text-2xl font-semibold text-indigo-500 mb-3">Sanjoy Sarker</a>
+        <h2 class="text-3xl md:text-5xl font-semibold text-white mb-6">{{project.title}}</h2>
+
+
+        <div class="flex item-center justify-start">
+
+            {% if project.demo_link %}
+            <a href=""
+                class="inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Live
+                Site</a>
+            {% endif %}
+
+            {% if project.source_link %}
+            <a href=""
+                class="ml-4 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Source
+                Code</a>
+            {% endif %}
+
+
+        </div>
+
+        <h3 class="text-2xl font-semibold text-gray-400 mt-6 mb-4 uppercase">Technologies</h3>
+
+        <div class="flex flex-wrap items-center gap-3 mt-6">
+            {% for tag in tags %}
+            <span class="py-1 px-3 rounded-lg text-sm text-white bg-[#242526]">{{tag}}</span>
+            {% endfor %}
+        </div>
+
+        <h3 class="text-2xl font-semibold text-gray-400 mt-6 mb-4 uppercase">About The Project</h3>
+        <p class="text-base text-gray-500">{{project.description}}</p>
+
+        <h3 class="text-2xl font-semibold text-gray-400 mt-6 mb-4 uppercase">Feedback</h3>
+        <p class="text-lg text-gray-500"><strong>{{project.vote_ratio}}%</strong> Positive Feedback
+            ({{project.vote_total}} Vote{{project.vote_total | pluralize:"s" }})</p>
+
+        {% if request.user.profile.id in project.reviewers %}
+            <p class="text-white my-6 text-lg">You have already submitted your review for this project</p>
+        {% elif request.user.profile == project.owner %}
+            <p class="text-white my-6 text-lg">You cannot review your own work</p>
+
+        {% elif request.user.is_authenticated %}
+       
+        <form action="{% url 'project' project.id %}" method="POST" class="mt-8 mb-6">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="relative mb-4">
+                <label for="username" class="leading-7 text-base text-white">{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <button type="submit"
+                class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Comments</button>
+        </form>
+        {% else %}
+           <div class="my-6 text-white text-lg">
+           Please  <a href="{% url 'login' %}?next={{request.path}}" class=" text-indigo-500 "> Login </a> to leave a review...
+           </div>
+        {% endif %}
+
+        <div class="w-full bg-[#242526] px-5 md:px-8 py-8 md:py-10 rounded space-y-8 mt-12">
+
+            {% if reviews %}
+            {% for review in reviews %}
+            <div class="">
+                <a href="{% url 'user_profile' review.owner.id %}" class="inline-flex items-center">
+                    <img alt="testimonial" src="{{review.owner.profile_image.url}}"
+                        class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center">
+                    <span class="flex-grow flex flex-col pl-4">
+                        <span class="title-font font-medium text-indigo-500">{{review.owner.name}}</span>
+                        <span class="text-gray-300 text-sm">{{review.created}}</span>
+                    </span>
+                </a>
+                <p class="leading-relaxed  text-gray-400">{{review.body|linebreaksbr}}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+                <h2 class="text-2xl font-semibold text-white capitalize">There are No Review...</h2>
+            {% endif %}
+           
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

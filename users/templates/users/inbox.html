@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 py-10">
+
+    <h3 class="text-2xl uppercase font-semibold text-white mb-5">New Messages ( <span class="text-indigo-500">{{unreadCount}}</span> )</h3>
+
+    <div class="bg-white shadow py-8 px-4 md:px-10 rounded">
+        {% for msg in messageRequest %}
+        {% if msg.is_read == False %}
+        <div class="flex flex-col md:flex-row items-center justify-between border-b last:border-b-0 text-lg py-5 font-bold">
+            {% else %}
+            <div  class="flex flex-col md:flex-row items-center justify-between border-b last:border-b-0 text-lg py-5">
+        {% endif %}
+        <a href="{% url 'message' msg.id %}">
+            <div>{{msg.name}}</div>
+        </a>
+        <a href="{% url 'message' msg.id %}">     
+            <div>{{msg.subject}}</div>
+        </a>
+        <a href="{% url 'message' msg.id %}">
+            <div>{{msg.created}}</div>
+        </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

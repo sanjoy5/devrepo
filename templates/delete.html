@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto py-10 px-5 h-[300px] md:h-[580px] flex items-center justify-center">
+
+    <form action="" method="POST"
+        class="md:w-1/2 bg-white rounded-lg p-10 flex flex-col mx-auto w-full relative z-10 shadow-md">
+        {% csrf_token %}
+
+        <p class="text-xl md:text-3xl font-semibold text-center">Are you sure want to delete '{{obj}}'</p>
+
+        <div class="flex items-center justify-center mt-4 gap-2">
+            <a href="{{request.GET.next}}" class="px-6 py-2 bg-[#242526] text-white rounded text-lg">Go Back</a>
+            <button type="submit"
+                class=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Delete</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}

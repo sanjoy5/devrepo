@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<!-- {% include 'projects/projects_banner.html' %} -->
+<div class="max-w-7xl mx-auto mt-24 mb-8 px-4 text-center">
+    <label for="hero-field" class="leading-7 text-2xl md:text-4xl font-bold uppercase text-white">Search
+        Projects</label>
+    <form id="searchForm" action="{% url 'projects' %}" method="GET" class="flex w-full justify-center items-end">
+        <div class="relative mr-2 lg:w-2/4 xl:w-1/2 w-full md:w-full text-left">
+            <input type="text" id="hero-field" name="q"
+                class="w-full bg-white mt-5 rounded focus:ring-2 focus:ring-indigo-200  border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out "
+                value="{{search_query}}">
+        </div>
+        <button type="submit"
+            class="inline-flex text-white bg-indigo-500 border-0 py-2 px-4 md:px-6  focus:outline-none hover:bg-indigo-600 rounded text-lg">Search</button>
+    </form>
+</div>
+
+<div class="max-w-7xl px-5 pt-10 pb-16  mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
+
+        {% include 'projects/project_card.html' %}
+
+    </div>
+</div>
+
+
+{% include 'pagination.html' with queryset=projects custom_range=custom_range %}
+
+
+{% endblock content %}
