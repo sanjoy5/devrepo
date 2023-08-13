@@ -10,7 +10,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(null=True, blank=True,
-                              default='default.jpg')
+                              default='default.jpg', upload_to='project_imgs/')
     demo_link = models.CharField(max_length=1000, null=True, blank=True)
     source_link = models.CharField(max_length=1000, null=True, blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
